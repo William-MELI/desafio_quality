@@ -18,10 +18,18 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String propName;
+
     @ManyToOne
     private District district;
-    @OneToMany
+
+    @Transient
     private List<Room> roomList;
 
+    public Property(String propName, District district, List<Room> roomList) {
+        this.propName = propName;
+        this.district = district;
+        this.roomList = roomList;
+    }
 }

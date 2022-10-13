@@ -24,4 +24,8 @@ public class District {
     private String propDistrict;
     private BigDecimal valueDistrictM2;
 
+    public District(String propDistrict, BigDecimal valueDistrictM2) {
+        this.propDistrict = propDistrict;
+        this.valueDistrictM2 = valueDistrictM2;
+    }
 }
