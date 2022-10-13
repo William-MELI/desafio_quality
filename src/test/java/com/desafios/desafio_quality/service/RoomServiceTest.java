@@ -32,7 +32,7 @@ class RoomServiceTest {
 
     @Test
     @DisplayName("Calculate area in list with multiple rooms")
-    void getAllRoomAreasByPropertyId_returnsListWtihRoomDTO_whenSuccess(){
+    void getAllRoomAreasByPropertyId_returnsListWithRoomDTO_whenSuccess(){
         List<Room> roomList = new ArrayList<Room>();
         Property prop = new Property();
         roomList.add(new Room(1L,prop,"Bath", 10.0,20.0));
