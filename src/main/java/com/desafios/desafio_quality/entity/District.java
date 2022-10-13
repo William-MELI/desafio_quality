@@ -21,7 +21,6 @@ public class District {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String propDistrict;
     private BigDecimal valueDistrictM2;
 

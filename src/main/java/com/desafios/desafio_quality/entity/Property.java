@@ -18,9 +18,9 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String propName;
-
+    @ManyToOne
+    private District district;
     @OneToMany
     private List<Room> roomList;
 

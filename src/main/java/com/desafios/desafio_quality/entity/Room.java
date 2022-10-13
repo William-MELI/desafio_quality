@@ -17,9 +17,6 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    private Property property;
     private String roomName;
     private Double roomWidth;
     private Double roomLength;
