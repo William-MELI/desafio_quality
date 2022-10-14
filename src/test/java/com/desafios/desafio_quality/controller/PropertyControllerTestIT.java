@@ -1,8 +1,9 @@
-package com.desafios.desafio_quality.service;
+package com.desafios.desafio_quality.controller;
 
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
+import com.desafios.desafio_quality.service.PropertyService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PropertyControllerIT {
+public class PropertyControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
