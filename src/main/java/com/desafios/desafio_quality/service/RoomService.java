@@ -22,7 +22,7 @@ public class RoomService implements IRoomService {
     public List<RoomAreaResponse> getAllRoomAreasByPropertyId(Long propertyId) {
         Optional<List<Room>> roomList = Optional.ofNullable(roomRepository.findByPropertyId(propertyId));
 
-        if (roomList.isEmpty()) {
+        if (roomList.get().isEmpty()) {
             throw new NoRoomFoundInPropertyException(String.format("Nenhum cômodo encontrado na propriedade com ID %d", propertyId));
         } else {
             return roomList.get().stream().map(r -> new RoomAreaResponse(r)).toList();
