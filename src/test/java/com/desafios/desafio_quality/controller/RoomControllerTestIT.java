@@ -1,8 +1,9 @@
-package com.desafios.desafio_quality.service;
+package com.desafios.desafio_quality.controller;
 
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
+import com.desafios.desafio_quality.service.PropertyService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log4j2
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RoomServiceITest {
+public class RoomControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
