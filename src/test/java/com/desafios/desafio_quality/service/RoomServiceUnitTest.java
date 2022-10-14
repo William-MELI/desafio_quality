@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-class RoomServiceTest {
+class RoomServiceUnitTest {
 
     @InjectMocks
     RoomService roomService;
