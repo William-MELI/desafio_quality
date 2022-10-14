@@ -17,7 +17,7 @@ public class PropertyRequest {
 
     @NotBlank(message = "O nome do imóvel não pode estar em branco.")
     @Size(max = 30, message = "O nome do ímovel deve ter no máximo 30 caracteres.")
-    @Pattern(regexp = "([A-Z]|[0-9])[\\s|[0-9]|A-Z|a-z|ñ|ó|í|á|é|ú|Á|Ó|É|Í|Ú]*$", message = "O nome do assunto deve começar com letra maiúscula.")
+    @Pattern(regexp = "([A-Z]|[0-9])[\\s|[0-9]|A-Z|a-z|ñ|ó|í|á|é|ú|Á|Ó|É|Í|Ú]*$", message = "O nome do imóvel deve começar com letra maiúscula.")
     private String propName;
 
     @NotNull(message = "O bairro não pode ser nulo.")

@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 @Setter
 public class DistrictRequest {
 
-    @NotBlank(message = "O nome do cômodo não pode estar em branco.")
-    @Size(max = 45, message = "O nome do cômodo deve ter no máximo 45 caracteres.")
+    @NotBlank(message = "O nome do bairro não pode estar em branco.")
+    @Size(max = 45, message = "O nome do bairro deve ter no máximo 45 caracteres.")
     private String propDistrict;
 
     @Positive(message = "O valor do metro quadrado deve ser um valor positivo.")
