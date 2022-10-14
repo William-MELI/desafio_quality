@@ -1,13 +1,17 @@
 package com.desafios.desafio_quality.service;
 
+import com.desafios.desafio_quality.controller.dto.RoomAreaResponse;
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
+import com.desafios.desafio_quality.exception.NoRoomFoundInPropertyException;
+import com.desafios.desafio_quality.exception.PropertyNotFoundException;
 import com.desafios.desafio_quality.repository.DistrictRepository;
 import com.desafios.desafio_quality.repository.PropertyRepository;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -48,11 +52,27 @@ public class PropertyService {
     }
 
     public Property findById(Long id) {
-        Property property = propertyRepository.findById(id).orElseThrow();
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new PropertyNotFoundException(id));
         List<Room> roomList = roomRepository.findByProperty(property);
         roomList.forEach(r -> r.setProperty(null));
         property.setRoomList(roomList);
         return property;
+    }
+
+    public BigDecimal pricePropertyById(Long id) {
+        Property propertyById = this.findById(id);
+        Double sumRooms = propertyById.getRoomList().stream().map( Room::getArea).reduce(0.0, Double::sum);
+        BigDecimal result = new BigDecimal(sumRooms).multiply(propertyById.getDistrict().getValueDistrictM2());
+        return result;
+    }
+
+    public Double getTotalM2PropertyById(Long id){
+        Property property = findById(id);
+
+        Double sum = property.getRoomList().stream()
+                .reduce(0.0, (partialArea, areaTotal) -> partialArea + areaTotal.getArea(),  Double::sum);
+
+        return (double) Math.round(sum * 100) / 100;
     }
 
 }

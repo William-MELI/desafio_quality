@@ -1,17 +1,16 @@
 package com.desafios.desafio_quality.controller;
 
 import com.desafios.desafio_quality.controller.dto.PropertyRequest;
+import com.desafios.desafio_quality.controller.dto.PropertyTotalM2Response;
 import com.desafios.desafio_quality.controller.dto.PropertyResponse;
-import com.desafios.desafio_quality.entity.Property;
+import com.desafios.desafio_quality.controller.dto.PropertyTotalValueResponse;
 import com.desafios.desafio_quality.service.PropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
-@RequestMapping("/imovel")
+@RequestMapping("/property")
 public class PropertyController {
 
     private final PropertyService propertyService;
@@ -22,7 +21,7 @@ public class PropertyController {
 
 
     @PostMapping
-    ResponseEntity<Void> create(@RequestBody @Valid PropertyRequest propertyRequest) {
+    ResponseEntity<Void> create(@RequestBody PropertyRequest propertyRequest) {
         propertyService.save(propertyRequest.toEntity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -30,6 +29,20 @@ public class PropertyController {
     @GetMapping
     ResponseEntity<PropertyResponse> findById(@RequestParam Long id) {
         return ResponseEntity.ok(PropertyResponse.toResponse(propertyService.findById(id)));
+    }
+
+    @GetMapping("/prop-price")
+    ResponseEntity<PropertyTotalValueResponse> pricePropertyById(@RequestParam Long id) {
+        PropertyTotalValueResponse total = PropertyTotalValueResponse.toResponse(propertyService.findById(id));
+        total.setPropTatalPrice(propertyService.pricePropertyById(id));
+        return ResponseEntity.ok(total);
+    }
+
+    @GetMapping("/totalM2")
+    public ResponseEntity<PropertyTotalM2Response> getTotalM2PropertyById(@RequestParam Long id){
+        PropertyTotalM2Response propertyTotalM2Response = PropertyTotalM2Response.toResponse(propertyService.findById(id));
+        propertyTotalM2Response.setTotalM2(propertyService.getTotalM2PropertyById(id));
+        return new ResponseEntity<>(propertyTotalM2Response, HttpStatus.OK);
     }
 
 }

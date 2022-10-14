@@ -6,6 +6,7 @@ import com.desafios.desafio_quality.exception.NoRoomFoundInPropertyException;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,4 +30,9 @@ public class RoomService implements IRoomService {
         }
     }
 
+    public Optional<RoomAreaResponse> findBiggerRoom(Long id) {
+        List<RoomAreaResponse> listRoom = getAllRoomAreasByPropertyId(id);
+        return listRoom.stream()
+                .max(Comparator.comparing(RoomAreaResponse::getTotalArea));
+    }
 }

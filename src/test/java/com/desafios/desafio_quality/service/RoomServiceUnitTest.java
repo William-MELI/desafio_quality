@@ -13,9 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class RoomServiceUnitTest {
@@ -50,20 +50,46 @@ class RoomServiceUnitTest {
 
         assertTrue(
                 responseRoomAreaList.size() == roomAreaResponses.size() &&
-                responseRoomAreaList.containsAll(roomAreaResponses) &&
-                roomAreaResponses.containsAll(responseRoomAreaList)
+                        responseRoomAreaList.containsAll(roomAreaResponses) &&
+                        roomAreaResponses.containsAll(responseRoomAreaList)
         );
 
     }
-//    @Test
-//    @DisplayName("Assert throws when property has no room")
-//    void getAllRoomAreasByPropertyId_throwsNoRoomFoundInPropertyException_whenPropertyHasNoRoom() {
-//        Long invalidId = -1L;
-//        BDDMockito.when(roomRepository.findByPropertyId(invalidId)).thenThrow( new NoRoomFoundInPropertyException(""));
-//
-//        assertThrows(NoRoomFoundInPropertyException.class, () -> {
-//            roomService.getAllRoomAreasByPropertyId(invalidId);
-//        });
-//    }
 
+    @Test
+    @DisplayName("Assert throws when property has no room")
+    void getAllRoomAreasByPropertyId_throwsNoRoomFoundInPropertyException_whenPropertyHasNoRoom() {
+        Long invalidId = -1L;
+        BDDMockito.when(roomRepository.findByPropertyId(invalidId)).thenThrow(new NoRoomFoundInPropertyException(""));
+
+        assertThrows(NoRoomFoundInPropertyException.class, () -> {
+            roomService.getAllRoomAreasByPropertyId(invalidId);
+        });
+    }
+
+    @Test
+    @DisplayName("Determining which is the largest room on the property")
+    void findBiggerRoom_returnWithRoomDTO_whenSuccess() {
+
+        List<Room> roomList = new ArrayList<>();
+        roomList.add(new Room("Bath", 10.0, 25.0));
+        roomList.add(new Room("Bedroom", 20.0, 10.0));
+        roomList.add(new Room("Kitchen", 15.0, 15.0));
+        Mockito.when(roomRepository.findByPropertyId(ArgumentMatchers.anyLong()))
+                .thenReturn(roomList);
+        Optional<RoomAreaResponse> result = this.roomService.findBiggerRoom(ArgumentMatchers.anyLong());
+        assertNotNull(result);
+        result.ifPresent(r -> assertEquals("Bath", r.getRoomName()));
+    }
+
+    @Test
+    @DisplayName("Throw Exception NoRoomFoundInPropertyException")
+    void findBiggerRoom_throwsNoRoomFoundInPropertyException_whenPropertyHasNoRoom() {
+        List<Room> roomList = new ArrayList<>();
+        Mockito.when(roomRepository.findByPropertyId(ArgumentMatchers.anyLong()))
+                .thenReturn(roomList);
+        assertThrows(NoRoomFoundInPropertyException.class, () -> {
+            this.roomService.findBiggerRoom(ArgumentMatchers.anyLong());
+        });
+    }
 }
