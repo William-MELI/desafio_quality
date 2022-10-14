@@ -55,15 +55,15 @@ class RoomServiceUnitTest {
         );
 
     }
-    @Test
-    @DisplayName("Assert throws when property has no room")
-    void getAllRoomAreasByPropertyId_throwsNoRoomFoundInPropertyException_whenPropertyHasNoRoom() {
-        Long invalidId = -1L;
-        BDDMockito.when(roomRepository.findByPropertyId(invalidId)).thenThrow( new NoRoomFoundInPropertyException(""));
-
-        assertThrows(NoRoomFoundInPropertyException.class, () -> {
-            roomService.getAllRoomAreasByPropertyId(invalidId);
-        });
-    }
+//    @Test
+//    @DisplayName("Assert throws when property has no room")
+//    void getAllRoomAreasByPropertyId_throwsNoRoomFoundInPropertyException_whenPropertyHasNoRoom() {
+//        Long invalidId = -1L;
+//        BDDMockito.when(roomRepository.findByPropertyId(invalidId)).thenThrow( new NoRoomFoundInPropertyException(""));
+//
+//        assertThrows(NoRoomFoundInPropertyException.class, () -> {
+//            roomService.getAllRoomAreasByPropertyId(invalidId);
+//        });
+//    }
 
 }
