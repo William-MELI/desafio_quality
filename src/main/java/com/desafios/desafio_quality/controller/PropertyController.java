@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/imovel")
 public class PropertyController {
@@ -20,7 +22,7 @@ public class PropertyController {
 
 
     @PostMapping
-    ResponseEntity<Void> create(@RequestBody PropertyRequest propertyRequest) {
+    ResponseEntity<Void> create(@RequestBody @Valid PropertyRequest propertyRequest) {
         propertyService.save(propertyRequest.toEntity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
