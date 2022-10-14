@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/imovel")
+@RequestMapping("/property")
 public class PropertyController {
 
     private final PropertyService propertyService;
@@ -32,8 +32,8 @@ public class PropertyController {
     }
 
     @GetMapping("/totalM2")
-    public ResponseEntity<PropertyTotalM2> getTotalM2Property(@RequestParam Long id){
-        return new ResponseEntity<>(propertyService.getTotalM2Property(id),HttpStatus.OK);
+    public ResponseEntity<PropertyTotalM2> getTotalM2PropertyById(@RequestParam Long id){
+        return new ResponseEntity<>(propertyService.getTotalM2PropertyById(id),HttpStatus.OK);
     }
 
 }

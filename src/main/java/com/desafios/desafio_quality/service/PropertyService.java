@@ -8,10 +8,7 @@ import com.desafios.desafio_quality.repository.DistrictRepository;
 import com.desafios.desafio_quality.repository.PropertyRepository;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PropertyService {
@@ -58,14 +55,13 @@ public class PropertyService {
         return property;
     }
 
-    public PropertyTotalM2 getTotalM2Property(Long id){
+    public PropertyTotalM2 getTotalM2PropertyById(Long id){
         Property property = findById(id);
 
         Double sum = property.getRoomList().stream()
-                .map(r -> r.getRoomWidth() * r.getRoomLength())
-                .reduce(0.0, Double::sum);
+                .reduce(0.0, (partialArea, areaTotal) -> partialArea + areaTotal.getArea(),  Double::sum);
 
-        PropertyTotalM2 propertyTotalM2 = new PropertyTotalM2(property.getPropName(), sum);
+        PropertyTotalM2 propertyTotalM2 = new PropertyTotalM2(property.getPropName(), (double) Math.round(sum * 100)/100);
 
         return propertyTotalM2;
     }
