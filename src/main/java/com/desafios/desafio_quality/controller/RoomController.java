@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/room")
@@ -24,4 +25,8 @@ public class RoomController {
         return ResponseEntity.ok(this.roomService.getAllRoomAreasByPropertyId(id));
     }
 
+    @GetMapping("/filter-bigger-room/{id}")
+    Optional<RoomAreaResponse> findBiggerRoom(@PathVariable Long id) {
+        return roomService.findBiggerRoom(id);
+    }
 }
