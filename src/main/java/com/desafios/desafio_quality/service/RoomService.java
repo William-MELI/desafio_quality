@@ -30,13 +30,9 @@ public class RoomService implements IRoomService {
         }
     }
 
-    public Optional<RoomAreaResponse> findBiggerRoom(Long id) throws NoRoomFoundInPropertyException {
-          List<RoomAreaResponse> listRoom = getAllRoomAreasByPropertyId(id);
-        if (listRoom.isEmpty()) {
-            throw new NoRoomFoundInPropertyException(String.format("Nenhum cômodo encontrado na propriedade com ID %d", id));
-        } else {
-            return listRoom.stream()
-                    .max(Comparator.comparing(RoomAreaResponse::getTotalArea));
-        }
+    public Optional<RoomAreaResponse> findBiggerRoom(Long id) {
+        List<RoomAreaResponse> listRoom = getAllRoomAreasByPropertyId(id);
+        return listRoom.stream()
+                .max(Comparator.comparing(RoomAreaResponse::getTotalArea));
     }
 }
