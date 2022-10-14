@@ -3,6 +3,7 @@ package com.desafios.desafio_quality.controller;
 import com.desafios.desafio_quality.controller.dto.PropertyRequest;
 import com.desafios.desafio_quality.controller.dto.PropertyTotalM2Response;
 import com.desafios.desafio_quality.controller.dto.PropertyResponse;
+import com.desafios.desafio_quality.controller.dto.PropertyTotalValueResponse;
 import com.desafios.desafio_quality.service.PropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,13 @@ public class PropertyController {
     @GetMapping
     ResponseEntity<PropertyResponse> findById(@RequestParam Long id) {
         return ResponseEntity.ok(PropertyResponse.toResponse(propertyService.findById(id)));
+    }
+
+    @GetMapping("/prop-price")
+    ResponseEntity<PropertyTotalValueResponse> pricePropertyById(@RequestParam Long id) {
+        PropertyTotalValueResponse total = PropertyTotalValueResponse.toResponse(propertyService.findById(id));
+        total.setPropTatalPrice(propertyService.pricePropertyById(id));
+        return ResponseEntity.ok(total);
     }
 
     @GetMapping("/totalM2")
