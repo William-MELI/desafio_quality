@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +21,15 @@ public class Property {
 
     private String propName;
 
+    @ManyToOne
+    private District district;
+
+    @Transient
+    private List<Room> roomList;
+
+    public Property(String propName, District district, List<Room> roomList) {
+        this.propName = propName;
+        this.district = district;
+        this.roomList = roomList;
+    }
 }

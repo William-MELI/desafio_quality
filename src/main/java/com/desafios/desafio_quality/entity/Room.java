@@ -24,4 +24,12 @@ public class Room {
     private Double roomWidth;
     private Double roomLength;
 
+    public Room(String roomName, Double roomWidth, Double roomLength) {
+        this.roomName = roomName;
+        this.roomWidth = roomWidth;
+        this.roomLength = roomLength;
+    }
+    public Double getArea() {
+        return this.roomWidth * this.roomLength;
+    }
 }

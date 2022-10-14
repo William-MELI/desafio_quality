@@ -1,5 +1,6 @@
 package com.desafios.desafio_quality.controller;
 
+import com.desafios.desafio_quality.controller.dto.RoomAreaResponse;
 import com.desafios.desafio_quality.entity.Room;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import com.desafios.desafio_quality.service.RoomService;
@@ -18,8 +19,8 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @GetMapping
-    ResponseEntity<List<Room>> getAllAreas(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    ResponseEntity<List<RoomAreaResponse>> getAllAreas(@PathVariable Long id) {
         return ResponseEntity.ok(this.roomService.getAllRoomAreasByPropertyId(id));
     }
 

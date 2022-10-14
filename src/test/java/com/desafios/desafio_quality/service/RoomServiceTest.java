@@ -1,6 +1,6 @@
 package com.desafios.desafio_quality.service;
 
-import com.desafios.desafio_quality.entity.Property;
+import com.desafios.desafio_quality.controller.dto.RoomAreaResponse;
 import com.desafios.desafio_quality.entity.Room;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @ExtendWith(MockitoExtension.class)
 class RoomServiceTest {
 
@@ -26,24 +28,34 @@ class RoomServiceTest {
     RoomRepository roomRepository;
 
     @BeforeEach
-    void setup(){
+    void setup() {
 
     }
 
     @Test
     @DisplayName("Calculate area in list with multiple rooms")
-    void getAllRoomAreasByPropertyId_returnsListWithRoomDTO_whenSuccess(){
-        List<Room> roomList = new ArrayList<Room>();
-        Property prop = new Property();
-        roomList.add(new Room(1L,prop,"Bath", 10.0,20.0));
-        roomList.add(new Room(2L,prop,"Bedroom", 20.0,10.0));
-        roomList.add(new Room(3L,prop,"Kitchen", 15.0,15.0));
+    void getAllRoomAreasByPropertyId_returnsListWithRoomDTO_whenSuccess() {
+        List<Room> roomList = new ArrayList<>();
+        roomList.add(new Room("Bath", 10.0, 20.0));
+        roomList.add(new Room("Bedroom", 20.0, 10.0));
+        roomList.add(new Room("Kitchen", 15.0, 15.0));
+
+        List<RoomAreaResponse> roomAreaResponses = new ArrayList<>();
+        roomAreaResponses.add(new RoomAreaResponse(roomList.get(0)));
+        roomAreaResponses.add(new RoomAreaResponse(roomList.get(1)));
+        roomAreaResponses.add(new RoomAreaResponse(roomList.get(2)));
 
         Mockito.when(roomRepository.findByProperty(ArgumentMatchers.anyLong())).thenReturn(roomList);
 
-        List<Room> listRoom = this.roomService.getAllRoomAreasByPropertyId(ArgumentMatchers.anyLong());
+        List<RoomAreaResponse> responseRoomAreaList = this.roomService.getAllRoomAreasByPropertyId(ArgumentMatchers.anyLong());
 
-        System.out.println(listRoom);
+//        responseRoomAreaList.equals(roomAreaResponses);
+
+        assertTrue(
+                responseRoomAreaList.size() == roomAreaResponses.size() &&
+                responseRoomAreaList.containsAll(roomAreaResponses) &&
+                roomAreaResponses.containsAll(responseRoomAreaList)
+        );
 
     }
 
