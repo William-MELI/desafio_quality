@@ -1,5 +1,6 @@
 package com.desafios.desafio_quality.service;
 
+import com.desafios.desafio_quality.controller.dto.PropertyTotalValueResponse;
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
@@ -8,6 +9,7 @@ import com.desafios.desafio_quality.repository.PropertyRepository;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -53,6 +55,13 @@ public class PropertyService {
         roomList.forEach(r -> r.setProperty(null));
         property.setRoomList(roomList);
         return property;
+    }
+
+    public BigDecimal pricePropertyById(Long id) {
+        Property propertyById = this.findById(id);
+        Double sumRooms = propertyById.getRoomList().stream().map( Room::getArea).reduce(0.0, Double::sum);
+        BigDecimal result = new BigDecimal(sumRooms).multiply(propertyById.getDistrict().getValueDistrictM2());
+        return result;
     }
 
 }
