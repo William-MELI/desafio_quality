@@ -51,21 +51,20 @@ public class PropertyService {
     }
 
     public Property findById(Long id) {
-        return propertyRepository.findById(id).orElseThrow();
+        Property property = propertyRepository.findById(id).orElseThrow();
+        List<Room> roomList = roomRepository.findByProperty(property);
+        roomList.forEach(r -> r.setProperty(null));
+        property.setRoomList(roomList);
+        return property;
     }
 
     public PropertyTotalM2 getTotalM2Property(Long id){
-        Property property = propertyRepository.findById(id).orElseThrow();
-        //property.getRoomList().stream().reduce(0, (width, length) -> width * length, Double::sum);
+        Property property = findById(id);
 
         Double sum = property.getRoomList().stream()
                 .map(r -> r.getRoomWidth() * r.getRoomLength())
                 .reduce(0.0, Double::sum);
 
-        /*Double somaArea = 0.0;
-        for(int i = 0; i < property.getRoomList().size(); i++){
-            somaArea =+ property.getRoomList().get(i).getRoomWidth() * property.getRoomList().get(i).getRoomLength();
-        }*/
         PropertyTotalM2 propertyTotalM2 = new PropertyTotalM2(property.getPropName(), sum);
 
         return propertyTotalM2;

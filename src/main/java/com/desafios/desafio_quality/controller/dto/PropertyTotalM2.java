@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PropertyTotalM2 {
-    private String name;
+    private String propertyName;
     private Double totalM2;
 }
