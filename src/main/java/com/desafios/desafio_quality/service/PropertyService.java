@@ -1,6 +1,5 @@
 package com.desafios.desafio_quality.service;
 
-import com.desafios.desafio_quality.controller.dto.PropertyTotalValueResponse;
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
@@ -62,6 +61,15 @@ public class PropertyService {
         Double sumRooms = propertyById.getRoomList().stream().map( Room::getArea).reduce(0.0, Double::sum);
         BigDecimal result = new BigDecimal(sumRooms).multiply(propertyById.getDistrict().getValueDistrictM2());
         return result;
+    }
+
+    public Double getTotalM2PropertyById(Long id){
+        Property property = findById(id);
+
+        Double sum = property.getRoomList().stream()
+                .reduce(0.0, (partialArea, areaTotal) -> partialArea + areaTotal.getArea(),  Double::sum);
+
+        return (double) Math.round(sum * 100) / 100;
     }
 
 }
