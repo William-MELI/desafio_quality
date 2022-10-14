@@ -2,20 +2,19 @@ package com.desafios.desafio_quality.service;
 
 import com.desafios.desafio_quality.controller.dto.RoomAreaResponse;
 import com.desafios.desafio_quality.entity.Room;
+import com.desafios.desafio_quality.exception.NoRoomFoundInPropertyException;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,6 +54,16 @@ class RoomServiceTest {
                 roomAreaResponses.containsAll(responseRoomAreaList)
         );
 
+    }
+    @Test
+    @DisplayName("Assert throws when property has no room")
+    void getAllRoomAreasByPropertyId_throwsNoRoomFoundInPropertyException_whenPropertyHasNoRoom() {
+        Long invalidId = -1L;
+        BDDMockito.when(roomRepository.findByPropertyId(invalidId)).thenThrow( new NoRoomFoundInPropertyException(""));
+
+        assertThrows(NoRoomFoundInPropertyException.class, () -> {
+            roomService.getAllRoomAreasByPropertyId(invalidId);
+        });
     }
 
 }
