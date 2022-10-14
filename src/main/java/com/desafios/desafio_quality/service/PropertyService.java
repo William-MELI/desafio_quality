@@ -48,7 +48,11 @@ public class PropertyService {
     }
 
     public Property findById(Long id) {
-        return propertyRepository.findById(id).orElseThrow();
+        Property property = propertyRepository.findById(id).orElseThrow();
+        List<Room> roomList = roomRepository.findByProperty(property);
+        roomList.forEach(r -> r.setProperty(null));
+        property.setRoomList(roomList);
+        return property;
     }
 
 }
