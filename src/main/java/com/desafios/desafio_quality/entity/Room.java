@@ -30,4 +30,8 @@ public class Room {
         this.roomWidth = roomWidth;
         this.roomLength = roomLength;
     }
+
+    public Double getArea() {
+        return this.roomWidth * this.roomLength;
+    }
 }
