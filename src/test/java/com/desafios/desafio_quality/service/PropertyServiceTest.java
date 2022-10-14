@@ -61,8 +61,8 @@ class PropertyServiceTest {
     }
 
     @Test
-    @DisplayName("Throw Exception NotFoundException")
-    void getTotalM2PropertyById_returnPropertyNotFoundException_whenNotPassTheRooms() {
+    @DisplayName("Throw Exception PropertyNotFoundException")
+    void getTotalM2PropertyById_returnPropertyNotFoundException_whenIdPropertyInvalid() {
         Long idNotFound = -1L;
 
         BDDMockito.given(propertyRepository.findById(ArgumentMatchers.anyLong()))
