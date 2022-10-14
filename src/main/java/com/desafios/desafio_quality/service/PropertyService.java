@@ -61,16 +61,16 @@ public class PropertyService {
 
     public BigDecimal pricePropertyById(Long id) {
         Property propertyById = this.findById(id);
-        Double sumRooms = propertyById.getRoomList().stream().map( Room::getArea).reduce(0.0, Double::sum);
+        Double sumRooms = propertyById.getRoomList().stream().map(Room::getArea).reduce(0.0, Double::sum);
         BigDecimal result = new BigDecimal(sumRooms).multiply(propertyById.getDistrict().getValueDistrictM2());
         return result;
     }
 
-    public Double getTotalM2PropertyById(Long id){
+    public Double getTotalM2PropertyById(Long id) {
         Property property = findById(id);
 
         Double sum = property.getRoomList().stream()
-                .reduce(0.0, (partialArea, areaTotal) -> partialArea + areaTotal.getArea(),  Double::sum);
+                .reduce(0.0, (partialArea, areaTotal) -> partialArea + areaTotal.getArea(), Double::sum);
 
         return (double) Math.round(sum * 100) / 100;
     }
