@@ -1,8 +1,11 @@
 package com.desafios.desafio_quality.service;
 
+import com.desafios.desafio_quality.controller.dto.RoomAreaResponse;
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
+import com.desafios.desafio_quality.exception.NoRoomFoundInPropertyException;
+import com.desafios.desafio_quality.exception.PropertyNotFoundException;
 import com.desafios.desafio_quality.repository.DistrictRepository;
 import com.desafios.desafio_quality.repository.PropertyRepository;
 import com.desafios.desafio_quality.repository.RoomRepository;
@@ -49,7 +52,7 @@ public class PropertyService {
     }
 
     public Property findById(Long id) {
-        Property property = propertyRepository.findById(id).orElseThrow();
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new PropertyNotFoundException(id));
         List<Room> roomList = roomRepository.findByProperty(property);
         roomList.forEach(r -> r.setProperty(null));
         property.setRoomList(roomList);
