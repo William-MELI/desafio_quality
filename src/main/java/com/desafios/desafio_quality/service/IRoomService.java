@@ -4,8 +4,11 @@ import com.desafios.desafio_quality.controller.dto.RoomAreaResponse;
 import com.desafios.desafio_quality.entity.Room;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IRoomService {
 
     List<RoomAreaResponse> getAllRoomAreasByPropertyId(Long propertyId);
+
+    Optional<RoomAreaResponse> findBiggerRoom(Long id);
 }
