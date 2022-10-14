@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,6 +24,14 @@ public class RoomAreaResponse {
         this.roomLenght = room.getRoomLength();
         this.roomWidth = room.getRoomWidth();
         this.roomName = room.getRoomName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoomAreaResponse that = (RoomAreaResponse) o;
+        return Objects.equals(roomName, that.roomName) && Objects.equals(roomLenght, that.roomLenght) && Objects.equals(roomWidth, that.roomWidth) && Objects.equals(totalArea, that.totalArea);
     }
 
 }

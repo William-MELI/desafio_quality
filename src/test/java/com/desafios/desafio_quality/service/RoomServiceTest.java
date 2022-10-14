@@ -45,11 +45,9 @@ class RoomServiceTest {
         roomAreaResponses.add(new RoomAreaResponse(roomList.get(1)));
         roomAreaResponses.add(new RoomAreaResponse(roomList.get(2)));
 
-        Mockito.when(roomRepository.findByProperty(ArgumentMatchers.anyLong())).thenReturn(roomList);
+        Mockito.when(roomRepository.findByPropertyId(ArgumentMatchers.anyLong())).thenReturn(roomList);
 
         List<RoomAreaResponse> responseRoomAreaList = this.roomService.getAllRoomAreasByPropertyId(ArgumentMatchers.anyLong());
-
-//        responseRoomAreaList.equals(roomAreaResponses);
 
         assertTrue(
                 responseRoomAreaList.size() == roomAreaResponses.size() &&
