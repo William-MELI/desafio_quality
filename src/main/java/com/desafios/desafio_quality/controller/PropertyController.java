@@ -1,9 +1,8 @@
 package com.desafios.desafio_quality.controller;
 
 import com.desafios.desafio_quality.controller.dto.PropertyRequest;
-import com.desafios.desafio_quality.controller.dto.PropertyTotalM2;
+import com.desafios.desafio_quality.controller.dto.PropertyTotalM2Response;
 import com.desafios.desafio_quality.controller.dto.PropertyResponse;
-import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.service.PropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +31,10 @@ public class PropertyController {
     }
 
     @GetMapping("/totalM2")
-    public ResponseEntity<PropertyTotalM2> getTotalM2PropertyById(@RequestParam Long id){
-        return new ResponseEntity<>(propertyService.getTotalM2PropertyById(id),HttpStatus.OK);
+    public ResponseEntity<PropertyTotalM2Response> getTotalM2PropertyById(@RequestParam Long id){
+        PropertyTotalM2Response propertyTotalM2Response = PropertyTotalM2Response.toResponse(propertyService.findById(id));
+        propertyTotalM2Response.setTotalM2(propertyService.getTotalM2PropertyById(id));
+        return new ResponseEntity<>(propertyTotalM2Response, HttpStatus.OK);
     }
 
 }
