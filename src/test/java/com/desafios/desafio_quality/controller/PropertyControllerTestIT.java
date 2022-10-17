@@ -3,6 +3,8 @@ package com.desafios.desafio_quality.controller;
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
+import com.desafios.desafio_quality.exception.NoRoomFoundInPropertyException;
+
 import com.desafios.desafio_quality.exception.PropertyNotFoundException;
 import com.desafios.desafio_quality.service.PropertyService;
 import org.hamcrest.CoreMatchers;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -90,6 +93,20 @@ public class PropertyControllerTestIT {
     }
 
     @Test
+    void getPropertyPriceById_throwPropertyNotFoundException_whenPassWrongId() throws Exception {
+
+        ResultActions response = mockMvc.perform(get("/property/prop-price")
+                .param("id", String.valueOf(Long.MAX_VALUE))
+                .contentType(MediaType.APPLICATION_JSON));
+        
+        response.andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(
+                        result.getResolvedException() instanceof PropertyNotFoundException));
+    }
+                                result.getResolvedException() instanceof PropertyNotFoundException));
+    }
+
+}
     void getTotalM2PropertyById_throwPropertyNotFoundException_whenInexistentProperty() throws Exception {
 
         ResultActions response = mockMvc.perform(get("/property/totalM2")
@@ -98,6 +115,8 @@ public class PropertyControllerTestIT {
 
         response.andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(
+                        result.getResolvedException() instanceof PropertyNotFoundException));
+    }
                                 result.getResolvedException() instanceof PropertyNotFoundException));
     }
 
