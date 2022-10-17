@@ -3,6 +3,7 @@ package com.desafios.desafio_quality.controller.dto;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,8 @@ import java.util.List;
  * Contains all required validations as specified by the exercise.
  *
  */
+@Builder
 @Getter
-@Setter
 public class PropertyRequest {
 
     /**

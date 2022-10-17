@@ -1,5 +1,8 @@
 package com.desafios.desafio_quality.controller;
 
+import com.desafios.desafio_quality.controller.dto.DistrictRequest;
+import com.desafios.desafio_quality.controller.dto.PropertyRequest;
+import com.desafios.desafio_quality.controller.dto.RoomRequest;
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
@@ -7,6 +10,8 @@ import com.desafios.desafio_quality.exception.NoRoomFoundInPropertyException;
 
 import com.desafios.desafio_quality.exception.PropertyNotFoundException;
 import com.desafios.desafio_quality.service.PropertyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,9 +41,78 @@ public class PropertyControllerTestIT {
     @Autowired
     private PropertyService propertyService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     void setup() {
 
+    }
+
+    @Test
+    void testCreate() throws Exception {
+
+        List<RoomRequest> roomRequestList = new ArrayList<>();
+        roomRequestList.add(RoomRequest.builder()
+                        .roomName("Bedroom")
+                        .roomWidth(5.0)
+                        .roomLength(2.60)
+                .build());
+        roomRequestList.add(RoomRequest.builder()
+                .roomName("Kitchen")
+                .roomWidth(7.9)
+                .roomLength(3.75)
+                .build());
+        roomRequestList.add(RoomRequest.builder()
+                .roomName("Bathroom")
+                .roomWidth(3.85)
+                .roomLength(3.0)
+                .build());
+
+        PropertyRequest propertyRequest = PropertyRequest.builder()
+                .propName("Property Test")
+                .districtRequest(DistrictRequest.builder()
+                        .propDistrict("District Test")
+                        .valueDistrictM2(new BigDecimal(97))
+                        .build())
+                .roomRequestList(roomRequestList)
+                .build();
+
+        ResultActions resposta = mockMvc.perform(
+                post("/property")
+                        .content(objectMapper.writeValueAsString(propertyRequest))
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        resposta.andExpect(status().isCreated());
+
+    }
+
+    @Test
+    void testFindById() throws Exception {
+        List<Room> roomList = new ArrayList<>();
+        roomList.add(new Room("Bedroom", 5.00, 2.60));
+        roomList.add(new Room("Kitchen", 7.90, 3.75));
+        roomList.add(new Room("Bathroom", 3.85, 3.00));
+
+        Property property = new Property(1L, "Property Test",
+                new District(1L, "District Test", new BigDecimal(97.00)),
+                roomList);
+
+        propertyService.save(property);
+
+        ResultActions resposta = mockMvc.perform(
+                get("/property")
+                        .param("id", String.valueOf(property.getId()))
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        resposta.andExpect(status().isOk())
+                .andExpect(jsonPath("$.propName", CoreMatchers.is(property.getPropName())))
+                .andExpect(jsonPath("$.district.id", CoreMatchers.equalTo(property.getDistrict().getId().intValue())))
+                .andExpect(jsonPath("$.district.propDistrict", CoreMatchers.is(property.getDistrict().getPropDistrict())))
+                .andExpect(jsonPath("$.district.valueDistrictM2", CoreMatchers.is(property.getDistrict().getValueDistrictM2().doubleValue())))
+                .andExpect(jsonPath("$..roomList[*].roomName", CoreMatchers.is(roomList.stream().map(Room::getRoomName).toList())))
+                .andExpect(jsonPath("$..roomList[*].roomWidth", CoreMatchers.is(roomList.stream().map(Room::getRoomWidth).toList())))
+                .andExpect(jsonPath("$..roomList[*].roomLength", CoreMatchers.is(roomList.stream().map(Room::getRoomLength).toList())));
     }
 
     @Test
@@ -87,7 +162,7 @@ public class PropertyControllerTestIT {
                         .contentType(MediaType.APPLICATION_JSON));
 
         resposta.andExpect(status().isOk())
-                .andExpect(jsonPath("$.propTatalPrice", CoreMatchers.is(totalPriceExpected)))
+                .andExpect(jsonPath("$.propTotalPrice", CoreMatchers.is(totalPriceExpected)))
                 .andExpect(jsonPath("$.propName", CoreMatchers.is(property.getPropName())))
                 .andExpect(jsonPath("$.valueDistrictM2", CoreMatchers.is(property.getDistrict().getValueDistrictM2().doubleValue())));
     }
