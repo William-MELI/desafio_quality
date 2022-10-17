@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+/**
+ * This is used as response for District related endpoints
+ */
 @Getter
 @Setter
 @Builder
@@ -12,8 +15,17 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class DistrictResponse {
 
+    /**
+     * District ID
+     */
     private Long id;
+    /**
+     * District name
+     */
     private String propDistrict;
+    /**
+     * Price for each Room squared area in this District
+     */
     private BigDecimal valueDistrictM2;
 
     public static DistrictResponse toResponse(District district) {

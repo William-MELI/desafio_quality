@@ -8,22 +8,36 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * The main Property entity
+ */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Property {
-
+    /**
+     * Property ID
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /**
+     * Property name
+     */
     private String propName;
+    /**
+     * District reference.
+     * It is an N-1 relationship
+     */
 
     @ManyToOne
     private District district;
-
+    /**
+     * List of Room reference.
+     * This property is @Transient
+     */
     @Transient
     private List<Room> roomList;
 
