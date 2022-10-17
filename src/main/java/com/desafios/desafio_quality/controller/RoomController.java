@@ -25,8 +25,8 @@ public class RoomController {
         return ResponseEntity.ok(this.roomService.getAllRoomAreasByPropertyId(id));
     }
 
-    @GetMapping("/filter-bigger-room/{id}")
-    Optional<RoomAreaResponse> findBiggerRoom(@PathVariable Long id) {
+    @GetMapping("/filter-bigger-room")
+    Optional<RoomAreaResponse> findBiggerRoom(@RequestParam Long id) {
         return roomService.findBiggerRoom(id);
     }
 }
