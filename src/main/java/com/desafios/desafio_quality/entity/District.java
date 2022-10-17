@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 
+/**
+ * The main Property entity
+ */
 @Entity
 @Getter
 @Setter
@@ -18,10 +21,20 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class District {
 
+    /**
+     * District ID
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * District name
+     */
     private String propDistrict;
+
+    /**
+     * Price for each Room squared area in this District
+     */
     private BigDecimal valueDistrictM2;
 
     public District(String propDistrict, BigDecimal valueDistrictM2) {
