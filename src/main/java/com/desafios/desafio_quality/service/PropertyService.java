@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * This class contains all Property related functions
+ * It is a Spring @Service
+ */
 @Service
 public class PropertyService {
 
@@ -27,6 +31,12 @@ public class PropertyService {
         this.districtRepository = districtRepository;
     }
 
+    /**
+     * Saves a new Property in dataset and returns the new instance.
+     * This will also save a new District and Room related to the Property
+     * @param property the new object to create
+     * @return the new Property created
+     */
     public Property save(Property property) {
         District savingDistrict = new District();
         savingDistrict.setPropDistrict(property.getDistrict().getPropDistrict());
@@ -51,14 +61,26 @@ public class PropertyService {
         return property;
     }
 
+    /**
+     * Returns the Property by its ID
+     * @param id the property ID
+     * @return the Property
+     * @throws PropertyNotFoundException in case the Property does not exist
+     */
     public Property findById(Long id) {
         Property property = propertyRepository.findById(id).orElseThrow(() -> new PropertyNotFoundException(id));
         List<Room> roomList = roomRepository.findByProperty(property);
-        roomList.forEach(r -> r.setProperty(null));
+//        roomList.forEach(r -> r.setProperty(null));
         property.setRoomList(roomList);
         return property;
     }
 
+    /**
+     * Returns the Property price given its id.
+     * Its calculate by using the Room area multiplied by the district value
+     * @param id the property ID
+     * @return the property price
+     */
     public BigDecimal pricePropertyById(Long id) {
         Property propertyById = this.findById(id);
         Double sumRooms = propertyById.getRoomList().stream().map(Room::getArea).reduce(0.0, Double::sum);
@@ -66,6 +88,12 @@ public class PropertyService {
         return result;
     }
 
+    /**
+     * Returns the square area for a Property given its id.
+     * It calculates by using its Rooms area
+     * @param id the property iD
+     * @return the square area of a property
+     */
     public Double getTotalM2PropertyById(Long id) {
         Property property = findById(id);
 

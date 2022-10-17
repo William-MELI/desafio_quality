@@ -1,5 +1,7 @@
 package com.desafios.desafio_quality.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,7 @@ public class Room {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Property property;
     private String roomName;
     private Double roomWidth;

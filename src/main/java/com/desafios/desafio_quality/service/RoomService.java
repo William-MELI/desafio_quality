@@ -17,10 +17,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class RoomService implements IRoomService {
-
-    /**
-     * The Room Repository
-     */
     RoomRepository roomRepository;
 
     public RoomService(RoomRepository roomRepository) {
