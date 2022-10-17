@@ -16,7 +16,7 @@ Projeto proposto pelo curso da [Digital House](https://www.digitalhouse.com/br) 
 
 
 ### Exemplo das requisições
-- 🔗 Importar via link no Postaman: [aqui]()
+- 🔗 Importar via link no Postman: [https://www.getpostman.com/collections/be99e1e1b060372b61ba]()
 
 > **Grupo 10:**  
 [William Campelo Pereira](https://github.com/William-MELI), [Izabele Sanches de Medeiros](https://www.linkedin.com/in/izabelesanches/), [João Pedro Laureano](https://www.linkedin.com/in/joao-pedro-laureano/), [Emily Carvalho](https://www.linkedin.com/in/emily-nilsen-carvalho/), [Magno Vicentini Serra](https://www.linkedin.com/in/magno-vicentini/).
