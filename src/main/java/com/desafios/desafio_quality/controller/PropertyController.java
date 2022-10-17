@@ -54,7 +54,7 @@ public class PropertyController {
     @GetMapping("/prop-price")
     ResponseEntity<PropertyTotalValueResponse> pricePropertyById(@RequestParam Long id) {
         PropertyTotalValueResponse total = PropertyTotalValueResponse.toResponse(propertyService.findById(id));
-        total.setPropTatalPrice(propertyService.pricePropertyById(id));
+        total.setPropTotalPrice(propertyService.pricePropertyById(id));
         return ResponseEntity.ok(total);
     }
 

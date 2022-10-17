@@ -9,6 +9,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+/**
+ * This is used as response in endpoint to send Property and it total price
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,10 +19,22 @@ import java.math.BigDecimal;
 @Setter
 public class PropertyTotalValueResponse {
 
+    /**
+     * Property id
+     */
     private Long id;
+    /**
+     * Property name
+     */
     private String propName;
+    /**
+     * Property square area price
+     */
     private BigDecimal valueDistrictM2;
-    private BigDecimal propTatalPrice;
+    /**
+     * Property total price
+     */
+    private BigDecimal propTotalPrice;
 
     public static PropertyTotalValueResponse toResponse(Property property) {
         return PropertyTotalValueResponse.builder()
