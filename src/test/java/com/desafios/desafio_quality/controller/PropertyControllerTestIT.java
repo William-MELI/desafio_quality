@@ -93,14 +93,14 @@ public class PropertyControllerTestIT {
     }
 
     @Test
-    void getPricePropertyById_throwPropertyNotFoundException_whenIdNotFound() throws Exception {
+    void getPropertyPriceById_throwPropertyNotFoundException_whenPassWrongId() throws Exception {
 
-        ResultActions response =mockMvc.perform(get("/property/prop-price", Long.MAX_VALUE)
+        ResultActions response = mockMvc.perform(get("/property/prop-price")
+                .param("id", String.valueOf(Long.MAX_VALUE))
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isNotFound())
-                .andExpect(
-                        result -> assertTrue(
-                                result.getResolvedException() instanceof PropertyNotFoundException));
+                .andExpect(result -> assertTrue(
+                        result.getResolvedException() instanceof PropertyNotFoundException));
     }
 }
