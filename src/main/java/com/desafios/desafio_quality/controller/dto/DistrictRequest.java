@@ -1,6 +1,7 @@
 package com.desafios.desafio_quality.controller.dto;
 
 import com.desafios.desafio_quality.entity.District;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,8 @@ import java.math.BigDecimal;
  * Contains all required validations as specified by the exercise.
  *
  */
+@Builder
 @Getter
-@Setter
 public class DistrictRequest {
     /**
      * District name

@@ -1,6 +1,7 @@
 package com.desafios.desafio_quality.controller.dto;
 
 import com.desafios.desafio_quality.entity.Room;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -12,8 +13,8 @@ import javax.validation.constraints.*;
  * Contains all required validations as specified by the exercise.
  *
  */
+@Builder
 @Getter
-@Setter
 public class RoomRequest {
 
     /**

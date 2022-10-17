@@ -4,6 +4,7 @@ import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
 import com.desafios.desafio_quality.exception.PropertyNotFoundException;
+import com.desafios.desafio_quality.repository.DistrictRepository;
 import com.desafios.desafio_quality.repository.PropertyRepository;
 import com.desafios.desafio_quality.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,8 +35,69 @@ class PropertyServiceTest {
     @Mock
     RoomRepository roomRepository;
 
+    @Mock
+    DistrictRepository districtRepository;
+
     @BeforeEach
     void setup() {
+
+    }
+
+    @Test
+    void testSave() {
+        List<Room> roomList = new ArrayList<>();
+        roomList.add(new Room("Bedroom", 8.00, 2.50));
+        roomList.add(new Room("Kitchen", 10.00, 3.75));
+        roomList.add(new Room("Bathroom", 4.50, 3.00));
+
+        District district = new District(1L, "District Test", new BigDecimal(97.00));
+
+        Property property = new Property(1L, "Property Test", district,
+                roomList);
+
+        Mockito.when(districtRepository.save(ArgumentMatchers.any()))
+                .thenReturn(district);
+
+        Mockito.when(propertyRepository.save(ArgumentMatchers.any()))
+                .thenReturn(property);
+
+        Mockito.when(roomRepository.saveAll(ArgumentMatchers.any()))
+                .thenReturn(roomList);
+
+        Property savedProperty = propertyService.save(property);
+
+        assertEquals(property, savedProperty);
+        ArgumentCaptor<District> districtArgumentCaptor = ArgumentCaptor.forClass(District.class);
+        Mockito.verify(districtRepository).save(districtArgumentCaptor.capture());
+
+        ArgumentCaptor<Property> propertyArgumentCaptor = ArgumentCaptor.forClass(Property.class);
+        Mockito.verify(propertyRepository).save(propertyArgumentCaptor.capture());
+
+        ArgumentCaptor<List<Room>> roomListArgumentCaptor = ArgumentCaptor.forClass(List.class);
+        Mockito.verify(roomRepository).saveAll(roomListArgumentCaptor.capture());
+
+    }
+
+    @Test
+    void testFindById() {
+
+        List<Room> roomList = new ArrayList<>();
+        roomList.add(new Room("Bedroom", 8.00, 2.50));
+        roomList.add(new Room("Kitchen", 10.00, 3.75));
+        roomList.add(new Room("Bathroom", 4.50, 3.00));
+
+        District district = new District(1L, "District Test", new BigDecimal(97.00));
+
+        Property property = new Property(1L, "Property Test", district,
+                roomList);
+
+        Mockito.when(propertyRepository.findById(ArgumentMatchers.any()))
+                .thenReturn(Optional.of(property));
+
+        Property savedProperty = propertyService.findById(1L);
+
+        assertEquals(savedProperty, property);
+        Mockito.verify(propertyRepository).findById(1L);
 
     }
 

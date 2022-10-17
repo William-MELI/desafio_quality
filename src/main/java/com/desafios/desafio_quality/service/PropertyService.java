@@ -43,7 +43,6 @@ public class PropertyService {
         savingDistrict.setValueDistrictM2(property.getDistrict().getValueDistrictM2());
         District savedDistrict = districtRepository.save(savingDistrict);
 
-
         Property savingProperty = new Property();
         savingProperty.setDistrict(savedDistrict);
         savingProperty.setPropName(property.getPropName());
