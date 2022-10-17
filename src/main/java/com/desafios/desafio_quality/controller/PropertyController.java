@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/property")
 public class PropertyController {
@@ -29,7 +31,7 @@ public class PropertyController {
      * @return a ResponseEntity<Void> instance.
      */
     @PostMapping
-    ResponseEntity<Void> create(@RequestBody PropertyRequest propertyRequest) {
+    ResponseEntity<Void> create(@RequestBody @Valid PropertyRequest propertyRequest) {
         propertyService.save(propertyRequest.toEntity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
