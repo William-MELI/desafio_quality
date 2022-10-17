@@ -21,4 +21,16 @@ public class QualityHandlerException {
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(PropertyNotFoundException.class)
+    public ResponseEntity<QualityExceptionDetails> handlerPropertyNotFoundException(PropertyNotFoundException ex) {
+        QualityExceptionDetails exceptionDetails = QualityExceptionDetails.builder()
+                .title("Imóvel não encontrado")
+                .message(ex.getMessage())
+                .status(HttpStatus.NOT_FOUND.value())
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
 }
