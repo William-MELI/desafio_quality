@@ -7,6 +7,6 @@ package com.desafios.desafio_quality.exception;
 public class PropertyNotFoundException extends RuntimeException {
 
     public PropertyNotFoundException(Long id){
-        super("O imóvel com id " + id + " não encontrado");
+        super("Imóvel com id " + id + " não encontrado");
     }
 }

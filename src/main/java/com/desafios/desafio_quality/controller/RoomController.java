@@ -3,10 +3,7 @@ package com.desafios.desafio_quality.controller;
 import com.desafios.desafio_quality.controller.dto.RoomAreaResponse;
 import com.desafios.desafio_quality.service.RoomService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +39,8 @@ public class RoomController {
      * @param id the property ID
      * @return the biggest room in a property
      */
-    @GetMapping("/filter-bigger-room/{id}")
-    ResponseEntity<Optional<RoomAreaResponse>> findBiggerRoom(@PathVariable Long id) {
-        return ResponseEntity.ok(roomService.findBiggerRoom(id));
+    @GetMapping("/filter-bigger-room")
+    Optional<RoomAreaResponse> findBiggerRoom(@RequestParam Long id) {
+        return roomService.findBiggerRoom(id);
     }
 }
