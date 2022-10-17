@@ -3,6 +3,7 @@ package com.desafios.desafio_quality.controller;
 import com.desafios.desafio_quality.entity.District;
 import com.desafios.desafio_quality.entity.Property;
 import com.desafios.desafio_quality.entity.Room;
+import com.desafios.desafio_quality.exception.PropertyNotFoundException;
 import com.desafios.desafio_quality.service.PropertyService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -60,4 +62,17 @@ public class PropertyControllerTestIT {
                 .andExpect(jsonPath("$.propName", CoreMatchers.is(property.getPropName())));
 
     }
+
+    @Test
+    void getTotalM2PropertyById_throwPropertyNotFoundException_whenInexistentProperty() throws Exception {
+
+        ResultActions response = mockMvc.perform(get("/property/totalM2")
+                .param("id", String.valueOf(Long.MAX_VALUE))
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(
+                                result.getResolvedException() instanceof PropertyNotFoundException));
+    }
+
 }
