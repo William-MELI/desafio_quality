@@ -32,12 +32,13 @@ public class RoomAreaResponse {
      */
     Double totalArea;
 
-    public RoomAreaResponse(Room room) {
-        this.totalArea = room.getArea();
-        this.roomLenght = room.getRoomLength();
-        this.roomWidth = room.getRoomWidth();
-        this.roomName = room.getRoomName();
-
+    public static RoomAreaResponse toResponse(Room room) {
+        return RoomAreaResponse.builder()
+                .totalArea(room.getArea())
+                .roomWidth(room.getRoomWidth())
+                .roomLenght(room.getRoomLength())
+                .roomName(room.getRoomName())
+                .build();
     }
 
 

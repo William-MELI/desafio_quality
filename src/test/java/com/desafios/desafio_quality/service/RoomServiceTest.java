@@ -40,9 +40,9 @@ class RoomServiceTest {
         roomList.add(new Room("Kitchen", 15.0, 15.0));
 
         List<RoomAreaResponse> roomAreaResponses = new ArrayList<>();
-        roomAreaResponses.add(new RoomAreaResponse(roomList.get(0)));
-        roomAreaResponses.add(new RoomAreaResponse(roomList.get(1)));
-        roomAreaResponses.add(new RoomAreaResponse(roomList.get(2)));
+        roomAreaResponses.add(RoomAreaResponse.toResponse(roomList.get(0)));
+        roomAreaResponses.add(RoomAreaResponse.toResponse(roomList.get(1)));
+        roomAreaResponses.add(RoomAreaResponse.toResponse(roomList.get(2)));
 
         Mockito.when(roomRepository.findByPropertyId(ArgumentMatchers.anyLong())).thenReturn(roomList);
 
